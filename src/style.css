@@ -1,0 +1,134 @@
+/* ============================================================================
+   style.css — Estilos globales del Sistema de Gestión de Farmacia.
+   Se importa una sola vez desde main.js ("import './style.css'"), antes de
+   montar la app, así que aplica a TODA la aplicación (no es exclusivo de
+   ningún componente en particular).
+   Organizado por secciones para que sea fácil encontrar qué tocar.
+   ============================================================================ */
+
+/* ── Tipografía y reset básico ──────────────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=DM+Sans:wght@300;400;500&display=swap');
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Paleta de colores (tema oscuro) ────────────────────────────────────── */
+:root {
+  /* Tamaño de la letra de TODA la página: 1 = tamaño anterior. Todos los
+     font-size de la app se multiplican por este valor, así que para agrandar
+     o achicar el texto de todo el sistema alcanza con cambiar este número
+     (por ejemplo 1.35 para letra todavía más grande). */
+  --zoom-texto: 1.3;
+  --bg: #0a0a0a; --bg2: #111111; --bg3: #181818; --bg4: #222222;
+  --orange: #FF6B00; --orange2: #FF8C33;
+  --border: #2a2a2a; --border-o: rgba(255,107,0,0.3);
+  --text: #f0f0f0; --text2: #aaa; --text3: #666;
+  --green: #22c55e; --red: #ef4444; --yellow: #eab308;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size:calc(18px * var(--zoom-texto));
+  min-height: 100vh;
+}
+
+/* ── Layout general (App.vue) ───────────────────────────────────────────── */
+.app { display: flex; flex-direction: column; min-height: 100vh; }
+.main { padding: 2rem; flex: 1; }
+
+/* ── Header y navegación (AppHeader.vue) ────────────────────────────────── */
+.header { background: var(--bg2); border-bottom: 1px solid var(--border-o); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; min-height: 64px; position: sticky; top: 0; z-index: 100; }
+.logo { font-family: 'Rajdhani', sans-serif; font-size:calc(28px * var(--zoom-texto)); font-weight: 700; color: var(--orange); letter-spacing: 4px; display: flex; align-items: center; gap: 10px; }
+.logo-dot { width: 8px; height: 8px; background: var(--orange); border-radius: 50%; }
+.logo-sub { font-size:calc(12px * var(--zoom-texto)); color: var(--text2); letter-spacing: 2px; margin-top: -4px; }
+.header-right { display: flex; align-items: center; gap: 16px; }
+.header-badge { background: rgba(255,107,0,0.1); border: 1px solid var(--border-o); color: var(--orange); font-size:calc(13px * var(--zoom-texto)); padding: 4px 10px; border-radius: 4px; letter-spacing: 1px; }
+.clock { color: var(--text2); font-size:calc(15px * var(--zoom-texto)); font-family: 'Rajdhani', sans-serif; letter-spacing: 1px; }
+
+.nav { background: var(--bg2); border-bottom: 1px solid var(--border); display: flex; padding: 0 2rem; gap: 4px; flex-wrap: wrap; }
+.nav-btn { background: none; border: none; color: var(--text2); padding: 14px 20px; cursor: pointer; font-size:calc(15px * var(--zoom-texto)); font-family: 'DM Sans', sans-serif; border-bottom: 2px solid transparent; transition: all 0.2s; }
+.nav-btn:hover { color: var(--text); }
+.nav-btn.active { color: var(--orange); border-bottom-color: var(--orange); }
+
+/* ── Tarjetas de estadísticas (SeccionDashboard.vue) ────────────────────── */
+.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; margin-bottom: 2rem; }
+.stat { background: var(--bg2); border: 1px solid var(--border); border-radius: 8px; padding: 1rem 1.25rem; position: relative; overflow: hidden; }
+.stat::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--orange); }
+.stat.danger::before { background: var(--red); }
+.stat.warn::before { background: var(--yellow); }
+.stat.ok::before { background: var(--green); }
+.stat-label { font-size:calc(13px * var(--zoom-texto)); color: var(--text3); letter-spacing: 1px; text-transform: uppercase; margin-bottom: 8px; }
+.stat-value { font-size:calc(28px * var(--zoom-texto)); font-weight: 500; font-family: 'Rajdhani', sans-serif; }
+.stat-sub { font-size:calc(13px * var(--zoom-texto)); color: var(--text2); margin-top: 4px; }
+
+/* ── Tarjeta genérica y encabezados de sección (usado en toda la app) ──── */
+.card { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem; margin-bottom: 1.5rem; }
+.card-title { font-family: 'Rajdhani', sans-serif; font-size:calc(18px * var(--zoom-texto)); font-weight: 600; color: var(--orange); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 1.5rem; }
+
+.section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 12px; }
+.section-title { font-family: 'Rajdhani', sans-serif; font-size:calc(25px * var(--zoom-texto)); font-weight: 600; letter-spacing: 2px; }
+.section-sub { color: var(--text2); font-size:calc(16px * var(--zoom-texto)); margin-top: 2px; }
+.empty { text-align: center; padding: 2rem; color: var(--text3); }
+
+/* ── Formularios (Registrar, Movimientos, modales de edición, Usuarios) ── */
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+.form-group { display: flex; flex-direction: column; gap: 6px; }
+.form-group label { font-size:calc(14px * var(--zoom-texto)); color: var(--text2); }
+.form-group input, .form-group select { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 10px 12px; border-radius: 6px; font-size:calc(17px * var(--zoom-texto)); font-family: 'DM Sans', sans-serif; outline: none; transition: border 0.2s; }
+.form-group input:focus, .form-group select:focus { border-color: var(--border-o); }
+.form-group select option { background: var(--bg3); }
+
+.filter-row { display: flex; gap: 12px; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center; }
+.filter-row input, .filter-row select { background: var(--bg3); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; font-size:calc(16px * var(--zoom-texto)); font-family: 'DM Sans', sans-serif; outline: none; }
+.filter-row input { flex: 1; min-width: 180px; }
+
+/* ── Botones (usado en toda la app) ─────────────────────────────────────── */
+.btn { border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; font-size:calc(16px * var(--zoom-texto)); font-weight: 500; padding: 10px 20px; border-radius: 6px; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+.btn-primary { background: var(--orange); color: #000; }
+.btn-primary:hover { background: var(--orange2); }
+.btn-primary:disabled { opacity: 0.6; cursor: not-allowed; }
+.btn-secondary { background: transparent; color: var(--orange); border: 1px solid var(--border-o); }
+.btn-secondary:hover { background: rgba(255,107,0,0.08); }
+.btn-danger { background: transparent; color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+.btn-danger:hover { background: rgba(239,68,68,0.08); }
+.btn-sm { padding: 6px 12px; font-size:calc(14px * var(--zoom-texto)); }
+.btn-row { display: flex; gap: 12px; margin-top: 1.5rem; flex-wrap: wrap; }
+
+/* ── Tablas (Medicamentos, Perfumería, Movimientos, Vencimientos, Usuarios) ── */
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size:calc(16px * var(--zoom-texto)); }
+thead { background: var(--bg3); }
+th { padding: 12px 16px; text-align: left; color: var(--text2); font-weight: 500; font-size:calc(14px * var(--zoom-texto)); letter-spacing: 1px; text-transform: uppercase; border-bottom: 1px solid var(--border); }
+td { padding: 12px 16px; border-bottom: 1px solid var(--border); color: var(--text); }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: rgba(255,255,255,0.02); }
+
+/* ── Insignias de estado (badges) ───────────────────────────────────────── */
+.badge { display: inline-block; padding: 3px 10px; border-radius: 4px; font-size:calc(13px * var(--zoom-texto)); font-weight: 500; }
+.badge-ok { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+.badge-warn { background: rgba(234,179,8,0.15); color: #eab308; border: 1px solid rgba(234,179,8,0.2); }
+.badge-danger { background: rgba(239,68,68,0.15); color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+.badge-in { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+.badge-out { background: rgba(255,107,0,0.15); color: var(--orange); border: 1px solid var(--border-o); }
+
+/* ── Barra de nivel de stock (Dashboard, Medicamentos, Perfumería) ──────── */
+.stock-bar { width: 100%; height: 6px; background: var(--bg4); border-radius: 3px; overflow: hidden; }
+.stock-fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+.stock-fill.high { background: var(--green); }
+.stock-fill.mid { background: var(--yellow); }
+.stock-fill.low { background: var(--red); }
+
+/* ── Colores de texto para días de vencimiento (Vencimientos, Medicamentos) ── */
+.days-ok { color: var(--green); font-weight: 500; }
+.days-warn { color: var(--yellow); font-weight: 500; }
+.days-danger { color: var(--red); font-weight: 500; }
+
+/* ── Avisos y notificaciones ─────────────────────────────────────────────
+   .alert-box: cartel rojo persistente (error de conexión, vencimientos
+   próximos, campos faltantes en Movimientos).
+   .toast: notificación flotante temporal (esquina inferior derecha). */
+.alert-box { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); border-radius: 8px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; font-size:calc(16px * var(--zoom-texto)); color: #f87171; }
+
+.toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--bg2); border: 1px solid var(--border-o); color: var(--text); padding: 12px 20px; border-radius: 8px; font-size:calc(16px * var(--zoom-texto)); display: none; z-index: 999; }
+.toast.show { display: flex; }
